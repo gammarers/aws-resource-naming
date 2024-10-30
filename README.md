@@ -1,1 +1,1 @@
-# replace this
+# AWS Rsource Naming
