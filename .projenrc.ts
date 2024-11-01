@@ -23,5 +23,9 @@ const project = new cdk.JsiiProject({
     secret: 'GITHUB_TOKEN',
     allowedUsernames: ['yicr'],
   },
+  publishToPypi: {
+    distName: 'gammarers.aws-resource-naming',
+    module: 'gammarers.aws_resource_naming',
+  },
 });
 project.synth();
