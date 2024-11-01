@@ -9,7 +9,7 @@ const project = new cdk.JsiiProject({
   name: '@gammarers/aws-resource-naming',
   projenrcTs: true,
   repositoryUrl: 'https://github.com/gammarers/aws-resource-naming.git',
-  releaseToNpm: false,
+  releaseToNpm: true,
   npmAccess: javascript.NpmAccess.PUBLIC,
   minNodeVersion: '18.0.0',
   workflowNodeVersion: '22.4.x',
