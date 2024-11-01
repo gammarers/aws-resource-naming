@@ -1,6 +1,18 @@
 # API Reference <a name="API Reference" id="api-reference"></a>
 
 
+## Structs <a name="Structs" id="Structs"></a>
+
+### Naming <a name="Naming" id="@gammarers/aws-resource-naming.ResourceNaming.Naming"></a>
+
+#### Initializer <a name="Initializer" id="@gammarers/aws-resource-naming.ResourceNaming.Naming.Initializer"></a>
+
+```typescript
+import { ResourceNaming } from '@gammarers/aws-resource-naming'
+
+const naming: ResourceNaming.Naming = { ... }
+```
+
 
 
 
