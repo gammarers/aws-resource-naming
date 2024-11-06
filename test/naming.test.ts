@@ -1,6 +1,6 @@
 import { ResourceNaming } from '../src';
 
-interface Names {
+interface Names extends ResourceNaming.Naming {
   readonly functionName: string;
   readonly roleName: string;
 }
@@ -11,43 +11,75 @@ interface TestNamingProps {
 
 describe('ResouceNaming Testing', () => {
 
-  const naming = ((props: TestNamingProps): string | undefined | Names => {
-    if (ResourceNaming.isNamingType(props.naming)) {
-      switch (props.naming) {
-        case ResourceNaming.NamingType.DEFAULT:
-          const random = ResourceNaming.createRandomString('ResourceName');
-          return `resource-name-${random}`;
-        case ResourceNaming.NamingType.NONE:
-          return undefined;
-      }
-    }
-    return props.naming;
+  const random = ResourceNaming.createRandomString('ResourceName');
+
+  const createName = ((props?: TestNamingProps) => {
+
+    const resourceNaming = props?.naming ?? ResourceNaming.NamingType.DEFAULT;
+    return {
+      naming: {
+        functionName: (() => {
+          if (ResourceNaming.isNamingType(resourceNaming)) {
+            if (resourceNaming === ResourceNaming.NamingType.DEFAULT) {
+              return `${random}-func`;
+            }
+            if (resourceNaming === ResourceNaming.NamingType.NONE) {
+              return undefined;
+            }
+          }
+          return resourceNaming.functionName;
+        })(),
+        roleName: (() => {
+          if (ResourceNaming.isNamingType(resourceNaming)) {
+            if (resourceNaming === ResourceNaming.NamingType.DEFAULT) {
+              return `${random}-func-exc-role`;
+            }
+            if (resourceNaming === ResourceNaming.NamingType.NONE) {
+              return undefined;
+            }
+          }
+          return resourceNaming.roleName;
+        })(),
+      },
+    };
   });
 
   it('Is Naming Randmon String', () => {
-    const props = {
+    const naming = createName({
       naming: ResourceNaming.NamingType.DEFAULT,
-    };
-    expect(typeof naming(props)).toBe('string');
+    });
+    expect(naming).toEqual({
+      naming: {
+        functionName: `${random}-func`,
+        roleName: `${random}-func-exc-role`,
+      },
+    });
   });
 
   it('Is Naming undefined', () => {
-    const props = {
+    const naming = createName({
       naming: ResourceNaming.NamingType.NONE,
-    };
-    expect(naming(props)).toBeUndefined();
+    });
+    expect(naming).toEqual({
+      naming: {
+        functionName: undefined,
+        roleName: undefined,
+      },
+    });
   });
 
   it('Is Namings', () => {
-    const props = {
+    const naming = createName({
       naming: {
         functionName: 'example-function',
         roleName: 'example-role',
       },
-    };
-    expect(naming(props)).toEqual({
-      functionName: 'example-function',
-      roleName: 'example-role',
+    });
+    expect(naming).toEqual({
+      naming: {
+        functionName: 'example-function',
+        roleName: 'example-role',
+      },
     });
   });
 });
