@@ -10,8 +10,9 @@ import * as crypto from 'crypto';
 
 export namespace ResourceNaming {
   export enum NamingType {
+    NO,
     DEFAULT,
-    NONE,
+    CUSTOM,
   }
 
   //export interface Naming {}
@@ -19,22 +20,42 @@ export namespace ResourceNaming {
   //    [key: string]: string;
   //  }
 
-  //  export interface CustomNaming {
-  //    // [key: string]: string; jsii error
-  //    readonly type: NamingType.CUSTOM;
-  //    readonly names: {
-  //      [key: string]: string;
-  //    };
-  //  }
-  export interface NamingOptions {
-    readonly naming: ResourceNaming.NamingType | {
+  export interface NoNaming {
+    readonly type: NamingType.NO;
+  }
+
+  export interface DefaultNaming {
+    readonly type: NamingType.DEFAULT;
+  }
+
+  export interface CustomNaming {
+    // [key: string]: string; jsii error
+    readonly type: NamingType.CUSTOM;
+    readonly names: {
       [key: string]: string;
     };
   }
 
-  export function isNamingType(value: NamingType | {[key: string]: string}): value is NamingType {
-    return Object.values(NamingType).includes(value as NamingType);
+  export interface NamingOptions {
+    readonly naming: NoNaming | DefaultNaming | CustomNaming;
   }
+
+  //  // jsii error JSII1006
+  //  export interface NamingOptions<T extends string> {
+  //    // jsii error JSII1003
+  //    readonly naming: ResourceNaming.NamingType | {
+  //      // [key: string]: string;
+  //      [K in T]: string;
+  //    };
+  //  }
+
+  //  export interface Txx {
+  //    readonly namingOption: NamingOptions<'a'|'b'>;
+  //  }
+
+  //  export function isNamingType(value: NamingType | {[key: string]: string}): value is NamingType {
+  //    return Object.values(NamingType).includes(value as NamingType);
+  //  }
 
   export function createRandomString(value: crypto.BinaryLike, length: number = 8) {
     return crypto.createHash('shake256', { outputLength: (length / 2) })
@@ -47,19 +68,32 @@ export namespace ResourceNaming {
   //    return obj[key];
   //  }
 
-  export function naming (resourceNaming: NamingOptions, defaultNaming: {[p: string]: string | undefined}) {
+  //export function naming<T extends string>(resourceNaming: NamingOptions<T>, defaultNaming: {[p: string]: string | undefined}) {
+  export function naming(resourceNaming: NamingOptions, defaultNaming: {[p: string]: string | undefined}) {
     const names = Object.fromEntries(
       Object.entries(defaultNaming).map(([name, value]) => {
         return [name, (() => {
-          if (ResourceNaming.isNamingType(resourceNaming.naming)) {
-            if (resourceNaming.naming === ResourceNaming.NamingType.DEFAULT) {
+          switch (resourceNaming.naming.type) {
+            case ResourceNaming.NamingType.CUSTOM:
+              return resourceNaming.naming.names[name as keyof {[key: string]: string}];
+            case ResourceNaming.NamingType.DEFAULT:
               return value;
-            }
-            if (resourceNaming.naming === ResourceNaming.NamingType.NONE) {
+            case ResourceNaming.NamingType.NO:
               return undefined;
-            }
           }
-          return resourceNaming.naming[name as keyof {[key: string]: string}];
+          //          if (ResourceNaming.isNamingType(resourceNaming.naming.type)) {
+          //            if (resourceNaming.naming.type === ResourceNaming.NamingType.DEFAULT) {
+          //              return value;
+          //            }
+          //            if (resourceNaming.naming.type === ResourceNaming.NamingType.NO) {
+          //              return undefined;
+          //            }
+          //            return resourceNaming.naming.names[name as keyof {[key: string]: string}];
+          //          }
+          // return resourceNaming.naming[name as keyof {[K in T]: string}];
+          // return resourceNaming.naming.names[name as keyof {[key: string]: string}];
+
+          // return undefined;
         })()];
       }),
     );

@@ -18,9 +18,13 @@ describe('ResouceNaming Testing', () => {
     roleName: `${random}-func-exc-role`,
   };
 
+  // type Names = 'functionName' | 'roleName';
+
   it('Is Naming Default include Randmon String', () => {
     const options: ResourceNaming.NamingOptions = {
-      naming: ResourceNaming.NamingType.DEFAULT,
+      naming: {
+        type: ResourceNaming.NamingType.DEFAULT,
+      },
     };
     const naming = ResourceNaming.naming(options, defaultNaming);
     expect(naming).toEqual({
@@ -30,7 +34,9 @@ describe('ResouceNaming Testing', () => {
 
   it('Is Naming undefined', () => {
     const options: ResourceNaming.NamingOptions = {
-      naming: ResourceNaming.NamingType.NONE,
+      naming: {
+        type: ResourceNaming.NamingType.NO,
+      },
     };
     const naming = ResourceNaming.naming(options, defaultNaming);
     expect(naming).toEqual({
@@ -44,8 +50,11 @@ describe('ResouceNaming Testing', () => {
   it('Is Namings', () => {
     const options: ResourceNaming.NamingOptions = {
       naming: {
-        functionName: 'example-function',
-        roleName: 'example-role',
+        type: ResourceNaming.NamingType.CUSTOM,
+        names: {
+          functionName: 'example-function',
+          roleName: 'example-role',
+        },
       },
     };
     const naming = ResourceNaming.naming(options, defaultNaming);
