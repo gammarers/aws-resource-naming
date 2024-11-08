@@ -3,16 +3,33 @@
 
 ## Structs <a name="Structs" id="Structs"></a>
 
-### Naming <a name="Naming" id="@gammarers/aws-resource-naming.ResourceNaming.Naming"></a>
+### NamingOptions <a name="NamingOptions" id="@gammarers/aws-resource-naming.ResourceNaming.NamingOptions"></a>
 
-#### Initializer <a name="Initializer" id="@gammarers/aws-resource-naming.ResourceNaming.Naming.Initializer"></a>
+#### Initializer <a name="Initializer" id="@gammarers/aws-resource-naming.ResourceNaming.NamingOptions.Initializer"></a>
 
 ```typescript
 import { ResourceNaming } from '@gammarers/aws-resource-naming'
 
-const naming: ResourceNaming.Naming = { ... }
+const namingOptions: ResourceNaming.NamingOptions = { ... }
 ```
 
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@gammarers/aws-resource-naming.ResourceNaming.NamingOptions.property.naming">naming</a></code> | <code>@gammarers/aws-resource-naming.ResourceNaming.NamingType \| {[ key: string ]: string}</code> | *No description.* |
+
+---
+
+##### `naming`<sup>Required</sup> <a name="naming" id="@gammarers/aws-resource-naming.ResourceNaming.NamingOptions.property.naming"></a>
+
+```typescript
+public readonly naming: NamingType | {[ key: string ]: string};
+```
+
+- *Type:* @gammarers/aws-resource-naming.ResourceNaming.NamingType | {[ key: string ]: string}
+
+---
 
 
 
