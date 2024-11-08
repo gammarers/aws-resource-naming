@@ -28,16 +28,21 @@ export namespace ResourceNaming {
     readonly type: NamingType.DEFAULT;
   }
 
-  export interface CustomNaming {
-    // [key: string]: string; jsii error
-    readonly type: NamingType.CUSTOM;
-    readonly names: {
-      [key: string]: string;
-    };
-  }
+  //  export interface CustomNaming {
+  //    // [key: string]: string; jsii error
+  //    readonly type: NamingType.CUSTOM;
+  //    readonly names: {
+  //      [key: string]: string;
+  //    };
+  //  }
 
-  export interface NamingOptions {
-    readonly naming: NoNaming | DefaultNaming | CustomNaming;
+  interface NamingOptions {
+    readonly naming: NoNaming | DefaultNaming | {
+      readonly type: NamingType.CUSTOM;
+      readonly names: {
+        [key: string]: string;
+      };
+    };
   }
 
   //  // jsii error JSII1006

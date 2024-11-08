@@ -9,19 +9,29 @@ import { ResourceNaming } from '../src';
 //  readonly naming: ResourceNaming.NamingType | Names;
 //}
 
+export interface NamingOptions {
+  readonly naming: ResourceNaming.NoNaming | ResourceNaming.DefaultNaming | {
+    type: ResourceNaming.NamingType.CUSTOM;
+    names: {
+      functionName: string;
+      functionRoleName: string;
+    };
+  };
+}
+
 describe('ResouceNaming Testing', () => {
 
   const random = ResourceNaming.createRandomString('ResourceName');
 
   const defaultNaming = {
     functionName: `${random}-func`,
-    roleName: `${random}-func-exc-role`,
+    functionRoleName: `${random}-func-exc-role`,
   };
 
   // type Names = 'functionName' | 'roleName';
 
   it('Is Naming Default include Randmon String', () => {
-    const options: ResourceNaming.NamingOptions = {
+    const options: NamingOptions = {
       naming: {
         type: ResourceNaming.NamingType.DEFAULT,
       },
@@ -33,7 +43,7 @@ describe('ResouceNaming Testing', () => {
   });
 
   it('Is Naming undefined', () => {
-    const options: ResourceNaming.NamingOptions = {
+    const options: NamingOptions = {
       naming: {
         type: ResourceNaming.NamingType.NO,
       },
@@ -48,12 +58,12 @@ describe('ResouceNaming Testing', () => {
   });
 
   it('Is Namings', () => {
-    const options: ResourceNaming.NamingOptions = {
+    const options: NamingOptions = {
       naming: {
         type: ResourceNaming.NamingType.CUSTOM,
         names: {
           functionName: 'example-function',
-          roleName: 'example-role',
+          functionRoleName: 'example-role',
         },
       },
     };
@@ -61,7 +71,7 @@ describe('ResouceNaming Testing', () => {
     expect(naming).toEqual({
       naming: {
         functionName: 'example-function',
-        roleName: 'example-role',
+        functionRoleName: 'example-role',
       },
     });
   });
