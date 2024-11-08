@@ -9,38 +9,48 @@ import { ResourceNaming } from '../src';
 //  readonly naming: ResourceNaming.NamingType | Names;
 //}
 
+export interface NamingOptions {
+  readonly naming: ResourceNaming.NoNaming | ResourceNaming.DefaultNaming | {
+    type: ResourceNaming.NamingType.CUSTOM;
+    names: {
+      functionName: string;
+      functionRoleName: string;
+    };
+  };
+}
+
 describe('ResouceNaming Testing', () => {
 
   const random = ResourceNaming.createRandomString('ResourceName');
 
   const defaultNaming = {
     functionName: `${random}-func`,
-    roleName: `${random}-func-exc-role`,
+    functionRoleName: `${random}-func-exc-role`,
   };
 
   // type Names = 'functionName' | 'roleName';
 
   it('Is Naming Default include Randmon String', () => {
-    const options: ResourceNaming.NamingOptions = {
+    const options: NamingOptions = {
       naming: {
         type: ResourceNaming.NamingType.DEFAULT,
       },
     };
     const naming = ResourceNaming.naming(options, defaultNaming);
     expect(naming).toEqual({
-      naming: defaultNaming,
+      names: defaultNaming,
     });
   });
 
   it('Is Naming undefined', () => {
-    const options: ResourceNaming.NamingOptions = {
+    const options: NamingOptions = {
       naming: {
         type: ResourceNaming.NamingType.NO,
       },
     };
     const naming = ResourceNaming.naming(options, defaultNaming);
     expect(naming).toEqual({
-      naming: {
+      names: {
         functionName: undefined,
         roleName: undefined,
       },
@@ -48,20 +58,20 @@ describe('ResouceNaming Testing', () => {
   });
 
   it('Is Namings', () => {
-    const options: ResourceNaming.NamingOptions = {
+    const options: NamingOptions = {
       naming: {
         type: ResourceNaming.NamingType.CUSTOM,
         names: {
           functionName: 'example-function',
-          roleName: 'example-role',
+          functionRoleName: 'example-role',
         },
       },
     };
     const naming = ResourceNaming.naming(options, defaultNaming);
     expect(naming).toEqual({
-      naming: {
+      names: {
         functionName: 'example-function',
-        roleName: 'example-role',
+        functionRoleName: 'example-role',
       },
     });
   });

@@ -28,17 +28,13 @@ export namespace ResourceNaming {
     readonly type: NamingType.DEFAULT;
   }
 
-  export interface CustomNaming {
-    // [key: string]: string; jsii error
-    readonly type: NamingType.CUSTOM;
-    readonly names: {
-      [key: string]: string;
-    };
-  }
-
-  export interface NamingOptions {
-    readonly naming: NoNaming | DefaultNaming | CustomNaming;
-  }
+  //  export interface CustomNaming {
+  //    // [key: string]: string; jsii error
+  //    readonly type: NamingType.CUSTOM;
+  //    readonly names: {
+  //      [key: string]: string;
+  //    };
+  //  }
 
   //  // jsii error JSII1006
   //  export interface NamingOptions<T extends string> {
@@ -69,7 +65,7 @@ export namespace ResourceNaming {
   //  }
 
   //export function naming<T extends string>(resourceNaming: NamingOptions<T>, defaultNaming: {[p: string]: string | undefined}) {
-  export function naming(resourceNaming: NamingOptions, defaultNaming: {[p: string]: string | undefined}) {
+  export function naming(resourceNaming: NamingOptions, defaultNaming: {[p: string]: string}) {
     const names = Object.fromEntries(
       Object.entries(defaultNaming).map(([name, value]) => {
         return [name, (() => {
@@ -97,6 +93,13 @@ export namespace ResourceNaming {
         })()];
       }),
     );
-    return { naming: names };
+    return { names };
   }
+}
+
+interface NamingOptions {
+  readonly naming: ResourceNaming.NoNaming | ResourceNaming.DefaultNaming | {
+    readonly type: ResourceNaming.NamingType.CUSTOM;
+    readonly names: {[key: string]: string};
+  };
 }
