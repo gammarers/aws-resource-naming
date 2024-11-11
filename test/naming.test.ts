@@ -38,7 +38,7 @@ describe('ResouceNaming Testing', () => {
     };
     const naming = ResourceNaming.naming(options, defaultNaming);
     expect(naming).toEqual({
-      naming: defaultNaming,
+      names: defaultNaming,
     });
   });
 
@@ -50,7 +50,7 @@ describe('ResouceNaming Testing', () => {
     };
     const naming = ResourceNaming.naming(options, defaultNaming);
     expect(naming).toEqual({
-      naming: {
+      names: {
         functionName: undefined,
         roleName: undefined,
       },
@@ -69,7 +69,7 @@ describe('ResouceNaming Testing', () => {
     };
     const naming = ResourceNaming.naming(options, defaultNaming);
     expect(naming).toEqual({
-      naming: {
+      names: {
         functionName: 'example-function',
         functionRoleName: 'example-role',
       },
