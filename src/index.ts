@@ -10,9 +10,9 @@ import * as crypto from 'crypto';
 
 export namespace ResourceNaming {
   export enum NamingType {
-    DEFAULT,
-    AUTO,
-    CUSTOM,
+    DEFAULT = 'Defalut',
+    AUTO = 'Auto',
+    CUSTOM = 'Custom',
   }
 
   //export interface Naming {}
