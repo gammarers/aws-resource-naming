@@ -23,7 +23,7 @@ describe('ResouceNaming Testing', () => {
 
   const random = ResourceNaming.createRandomString('ResourceName');
 
-  const defaultNaming = {
+  const autoNaming = {
     functionName: `${random}-func`,
     functionRoleName: `${random}-func-exc-role`,
   };
@@ -36,9 +36,18 @@ describe('ResouceNaming Testing', () => {
         type: ResourceNaming.NamingType.AUTO,
       },
     };
-    const naming = ResourceNaming.naming(options, defaultNaming);
+    const naming = ResourceNaming.naming(autoNaming, options);
     expect(naming).toEqual({
-      names: defaultNaming,
+      names: autoNaming,
+    });
+  });
+
+  it('Is Naming none', () => {
+    expect(ResourceNaming.naming(autoNaming)).toEqual({
+      names: {
+        functionName: undefined,
+        roleName: undefined,
+      },
     });
   });
 
@@ -48,8 +57,15 @@ describe('ResouceNaming Testing', () => {
         type: ResourceNaming.NamingType.DEFAULT,
       },
     };
-    const naming = ResourceNaming.naming(options, defaultNaming);
+    const naming = ResourceNaming.naming(autoNaming, options);
     expect(naming).toEqual({
+      names: {
+        functionName: undefined,
+        roleName: undefined,
+      },
+    });
+    // option
+    expect(ResourceNaming.naming(autoNaming)).toEqual({
       names: {
         functionName: undefined,
         roleName: undefined,
@@ -67,7 +83,7 @@ describe('ResouceNaming Testing', () => {
         },
       },
     };
-    const naming = ResourceNaming.naming(options, defaultNaming);
+    const naming = ResourceNaming.naming(autoNaming, options);
     expect(naming).toEqual({
       names: {
         functionName: 'example-function',

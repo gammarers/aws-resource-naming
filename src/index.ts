@@ -65,15 +65,16 @@ export namespace ResourceNaming {
   //  }
 
   //export function naming<T extends string>(resourceNaming: NamingOptions<T>, defaultNaming: {[p: string]: string | undefined}) {
-  export function naming(resourceNaming: NamingOptions, defaultNaming: {[p: string]: string}) {
+  export function naming(autoNaming: {[p: string]: string}, resourceNaming?: NamingOptions) {
     const names = Object.fromEntries(
-      Object.entries(defaultNaming).map(([name, value]) => {
+      Object.entries(autoNaming).map(([name, value]) => {
         return [name, (() => {
-          switch (resourceNaming.naming.type) {
+          switch (resourceNaming?.naming.type) {
             case ResourceNaming.NamingType.CUSTOM:
               return resourceNaming.naming.names[name as keyof {[key: string]: string}];
             case ResourceNaming.NamingType.AUTO:
               return value;
+            default:
             case ResourceNaming.NamingType.DEFAULT:
               return undefined;
           }
