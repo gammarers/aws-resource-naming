@@ -10,7 +10,7 @@ import { ResourceNaming } from '../src';
 //}
 
 export interface NamingOptions {
-  readonly naming: ResourceNaming.NoNaming | ResourceNaming.DefaultNaming | {
+  readonly naming: ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {
     type: ResourceNaming.NamingType.CUSTOM;
     names: {
       functionName: string;
@@ -30,10 +30,10 @@ describe('ResouceNaming Testing', () => {
 
   // type Names = 'functionName' | 'roleName';
 
-  it('Is Naming Default include Randmon String', () => {
+  it('Is Naming Auto generate include Randmon String', () => {
     const options: NamingOptions = {
       naming: {
-        type: ResourceNaming.NamingType.DEFAULT,
+        type: ResourceNaming.NamingType.AUTO,
       },
     };
     const naming = ResourceNaming.naming(options, defaultNaming);
@@ -42,10 +42,10 @@ describe('ResouceNaming Testing', () => {
     });
   });
 
-  it('Is Naming undefined', () => {
+  it('Is Naming Default(undefined)', () => {
     const options: NamingOptions = {
       naming: {
-        type: ResourceNaming.NamingType.NO,
+        type: ResourceNaming.NamingType.DEFAULT,
       },
     };
     const naming = ResourceNaming.naming(options, defaultNaming);

@@ -10,8 +10,8 @@ import * as crypto from 'crypto';
 
 export namespace ResourceNaming {
   export enum NamingType {
-    NO,
     DEFAULT,
+    AUTO,
     CUSTOM,
   }
 
@@ -20,8 +20,8 @@ export namespace ResourceNaming {
   //    [key: string]: string;
   //  }
 
-  export interface NoNaming {
-    readonly type: NamingType.NO;
+  export interface AutoNaming {
+    readonly type: NamingType.AUTO;
   }
 
   export interface DefaultNaming {
@@ -72,9 +72,9 @@ export namespace ResourceNaming {
           switch (resourceNaming.naming.type) {
             case ResourceNaming.NamingType.CUSTOM:
               return resourceNaming.naming.names[name as keyof {[key: string]: string}];
-            case ResourceNaming.NamingType.DEFAULT:
+            case ResourceNaming.NamingType.AUTO:
               return value;
-            case ResourceNaming.NamingType.NO:
+            case ResourceNaming.NamingType.DEFAULT:
               return undefined;
           }
           //          if (ResourceNaming.isNamingType(resourceNaming.naming.type)) {
@@ -98,7 +98,7 @@ export namespace ResourceNaming {
 }
 
 interface NamingOptions {
-  readonly naming: ResourceNaming.NoNaming | ResourceNaming.DefaultNaming | {
+  readonly naming: ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {
     readonly type: ResourceNaming.NamingType.CUSTOM;
     readonly names: {[key: string]: string};
   };
