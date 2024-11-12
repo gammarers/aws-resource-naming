@@ -8,25 +8,29 @@ import * as crypto from 'crypto';
 //   readonly naming: Naming | {functionName: string, roleName: string};
 // }
 
+export enum ResourceNamingType {
+  DEFAULT = 'Defalut',
+  AUTO = 'Auto',
+  CUSTOM = 'Custom',
+}
+
+export interface ResourceAutoNaming {
+  readonly type: ResourceNamingType.AUTO;
+}
+
+export interface ResourceDefaultNaming {
+  readonly type: ResourceNamingType.DEFAULT;
+}
+
+export type ResourceNamingOptions =
+  ResourceAutoNaming | ResourceDefaultNaming | {type: ResourceNamingType.CUSTOM; [key: string]: string};
+
 export namespace ResourceNaming {
-  export enum NamingType {
-    DEFAULT = 'Defalut',
-    AUTO = 'Auto',
-    CUSTOM = 'Custom',
-  }
 
   //export interface Naming {}
   //  export interface Naming {
   //    [key: string]: string;
   //  }
-
-  export interface AutoNaming {
-    readonly type: NamingType.AUTO;
-  }
-
-  export interface DefaultNaming {
-    readonly type: NamingType.DEFAULT;
-  }
 
   //  export interface CustomNaming {
   //    // [key: string]: string; jsii error
@@ -70,9 +74,6 @@ export namespace ResourceNaming {
   //  export type NamingOptions =
   //    ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {type: ResourceNaming.NamingType.CUSTOM; names: {[key: string]: string}};
 
-  export type NamingOptions =
-    AutoNaming | DefaultNaming | {type: NamingType.CUSTOM; [key: string]: string};
-
   //export function naming<T extends string>(resourceNaming: NamingOptions<T>, defaultNaming: {[p: string]: string | undefined}) {
   // ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {type: ResourceNaming.NamingType.CUSTOM; names: {[key: string]: string}}
   //export function naming(autoNaming: {[p: string]: string}, resourceNaming?: NamingOptions) {
@@ -81,19 +82,19 @@ export namespace ResourceNaming {
     //    resourceNaming?: {
     //      naming: ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {type: ResourceNaming.NamingType.CUSTOM; names: {[key: string]: string}};
     //    }) {
-    resourceNaming?: NamingOptions) {
+    resourceNaming?: ResourceNamingOptions) {
     return Object.fromEntries(
       Object.entries(autoNaming).map(([name, value]) => {
         return [name, (() => {
           switch (resourceNaming?.type) {
-            case NamingType.CUSTOM:
+            case ResourceNamingType.CUSTOM:
               // return resourceNaming.[name as keyof {[key: string]: string}];
               // return resourceNaming.names[name as keyof {[key: string]: string}];
               return resourceNaming[name as keyof { [key: string]: string }];
-            case NamingType.AUTO:
+            case ResourceNamingType.AUTO:
               return value;
             default:
-            case NamingType.DEFAULT:
+            case ResourceNamingType.DEFAULT:
               return undefined;
           }
           //          if (ResourceNaming.isNamingType(resourceNaming.naming.type)) {
@@ -114,10 +115,3 @@ export namespace ResourceNaming {
     );
   }
 }
-
-//interface NamingOptions {
-//  readonly naming: ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {
-//    readonly type: ResourceNaming.NamingType.CUSTOM;
-//    readonly names: {[key: string]: string};
-//  };
-//}
