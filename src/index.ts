@@ -71,7 +71,7 @@ export namespace ResourceNaming {
   //    ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {type: ResourceNaming.NamingType.CUSTOM; names: {[key: string]: string}};
 
   export type NamingOptions =
-    ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {type: ResourceNaming.NamingType.CUSTOM; [key: string]: string};
+    AutoNaming | DefaultNaming | {type: NamingType.CUSTOM; [key: string]: string};
 
   //export function naming<T extends string>(resourceNaming: NamingOptions<T>, defaultNaming: {[p: string]: string | undefined}) {
   // ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {type: ResourceNaming.NamingType.CUSTOM; names: {[key: string]: string}}
@@ -86,14 +86,14 @@ export namespace ResourceNaming {
       Object.entries(autoNaming).map(([name, value]) => {
         return [name, (() => {
           switch (resourceNaming?.type) {
-            case ResourceNaming.NamingType.CUSTOM:
+            case NamingType.CUSTOM:
               // return resourceNaming.[name as keyof {[key: string]: string}];
               // return resourceNaming.names[name as keyof {[key: string]: string}];
               return resourceNaming[name as keyof { [key: string]: string }];
-            case ResourceNaming.NamingType.AUTO:
+            case NamingType.AUTO:
               return value;
             default:
-            case ResourceNaming.NamingType.DEFAULT:
+            case NamingType.DEFAULT:
               return undefined;
           }
           //          if (ResourceNaming.isNamingType(resourceNaming.naming.type)) {
