@@ -64,13 +64,30 @@ export namespace ResourceNaming {
   //    return obj[key];
   //  }
 
+  //  export type NamingOptions = {
+  //    naming: ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {type: ResourceNaming.NamingType.CUSTOM; names: {[key: string]: string}};
+  //  };
+  export type NamingOptions = {
+    naming: ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {type: ResourceNaming.NamingType.CUSTOM; names: {[key: string]: string}};
+  };
+  //  export type NamingOptions =
+  //    ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {type: ResourceNaming.NamingType.CUSTOM;[key: string]: string};
+
   //export function naming<T extends string>(resourceNaming: NamingOptions<T>, defaultNaming: {[p: string]: string | undefined}) {
-  export function naming(autoNaming: {[p: string]: string}, resourceNaming?: NamingOptions) {
+  // ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {type: ResourceNaming.NamingType.CUSTOM; names: {[key: string]: string}}
+  //export function naming(autoNaming: {[p: string]: string}, resourceNaming?: NamingOptions) {
+  export function naming(
+    autoNaming: {[p: string]: string},
+    //    resourceNaming?: {
+    //      naming: ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {type: ResourceNaming.NamingType.CUSTOM; names: {[key: string]: string}};
+    //    }) {
+    resourceNaming?: NamingOptions) {
     const names = Object.fromEntries(
       Object.entries(autoNaming).map(([name, value]) => {
         return [name, (() => {
           switch (resourceNaming?.naming.type) {
             case ResourceNaming.NamingType.CUSTOM:
+              // return resourceNaming.[name as keyof {[key: string]: string}];
               return resourceNaming.naming.names[name as keyof {[key: string]: string}];
             case ResourceNaming.NamingType.AUTO:
               return value;
@@ -98,9 +115,9 @@ export namespace ResourceNaming {
   }
 }
 
-interface NamingOptions {
-  readonly naming: ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {
-    readonly type: ResourceNaming.NamingType.CUSTOM;
-    readonly names: {[key: string]: string};
-  };
-}
+//interface NamingOptions {
+//  readonly naming: ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {
+//    readonly type: ResourceNaming.NamingType.CUSTOM;
+//    readonly names: {[key: string]: string};
+//  };
+//}
