@@ -67,11 +67,11 @@ export namespace ResourceNaming {
   //  export type NamingOptions = {
   //    naming: ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {type: ResourceNaming.NamingType.CUSTOM; names: {[key: string]: string}};
   //  };
-  export type NamingOptions = {
-    naming: ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {type: ResourceNaming.NamingType.CUSTOM; names: {[key: string]: string}};
-  };
   //  export type NamingOptions =
-  //    ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {type: ResourceNaming.NamingType.CUSTOM;[key: string]: string};
+  //    ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {type: ResourceNaming.NamingType.CUSTOM; names: {[key: string]: string}};
+
+  export type NamingOptions =
+    ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {type: ResourceNaming.NamingType.CUSTOM; [key: string]: string};
 
   //export function naming<T extends string>(resourceNaming: NamingOptions<T>, defaultNaming: {[p: string]: string | undefined}) {
   // ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {type: ResourceNaming.NamingType.CUSTOM; names: {[key: string]: string}}
@@ -82,13 +82,14 @@ export namespace ResourceNaming {
     //      naming: ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {type: ResourceNaming.NamingType.CUSTOM; names: {[key: string]: string}};
     //    }) {
     resourceNaming?: NamingOptions) {
-    const names = Object.fromEntries(
+    return Object.fromEntries(
       Object.entries(autoNaming).map(([name, value]) => {
         return [name, (() => {
-          switch (resourceNaming?.naming.type) {
+          switch (resourceNaming?.type) {
             case ResourceNaming.NamingType.CUSTOM:
               // return resourceNaming.[name as keyof {[key: string]: string}];
-              return resourceNaming.naming.names[name as keyof {[key: string]: string}];
+              // return resourceNaming.names[name as keyof {[key: string]: string}];
+              return resourceNaming[name as keyof { [key: string]: string }];
             case ResourceNaming.NamingType.AUTO:
               return value;
             default:
@@ -111,7 +112,6 @@ export namespace ResourceNaming {
         })()];
       }),
     );
-    return { names };
   }
 }
 

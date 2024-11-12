@@ -9,16 +9,6 @@ import { ResourceNaming } from '../src';
 //  readonly naming: ResourceNaming.NamingType | Names;
 //}
 
-export interface NamingOptions {
-  readonly naming: ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {
-    type: ResourceNaming.NamingType.CUSTOM;
-    names: {
-      functionName: string;
-      functionRoleName: string;
-    };
-  };
-}
-
 describe('ResouceNaming Testing', () => {
 
   const random = ResourceNaming.createRandomString('ResourceName');
@@ -31,64 +21,41 @@ describe('ResouceNaming Testing', () => {
   // type Names = 'functionName' | 'roleName';
 
   it('Is Naming Auto generate include Randmon String', () => {
-    const options: NamingOptions = {
-      naming: {
-        type: ResourceNaming.NamingType.AUTO,
-      },
+    const options: ResourceNaming.NamingOptions = {
+      type: ResourceNaming.NamingType.AUTO,
     };
     const naming = ResourceNaming.naming(autoNaming, options);
-    expect(naming).toEqual({
-      names: autoNaming,
-    });
+    expect(naming).toEqual(autoNaming);
   });
 
   it('Is Naming none', () => {
     expect(ResourceNaming.naming(autoNaming)).toEqual({
-      names: {
-        functionName: undefined,
-        roleName: undefined,
-      },
+      functionName: undefined,
+      roleName: undefined,
     });
   });
 
   it('Is Naming Default(undefined)', () => {
-    const options: NamingOptions = {
-      naming: {
-        type: ResourceNaming.NamingType.DEFAULT,
-      },
+    const options: ResourceNaming.NamingOptions = {
+      type: ResourceNaming.NamingType.DEFAULT,
     };
     const naming = ResourceNaming.naming(autoNaming, options);
     expect(naming).toEqual({
-      names: {
-        functionName: undefined,
-        roleName: undefined,
-      },
-    });
-    // option
-    expect(ResourceNaming.naming(autoNaming)).toEqual({
-      names: {
-        functionName: undefined,
-        roleName: undefined,
-      },
+      functionName: undefined,
+      roleName: undefined,
     });
   });
 
   it('Is Namings', () => {
-    const options: NamingOptions = {
-      naming: {
-        type: ResourceNaming.NamingType.CUSTOM,
-        names: {
-          functionName: 'example-function',
-          functionRoleName: 'example-role',
-        },
-      },
+    const options: ResourceNaming.NamingOptions = {
+      type: ResourceNaming.NamingType.CUSTOM,
+      functionName: 'example-function',
+      functionRoleName: 'example-role',
     };
     const naming = ResourceNaming.naming(autoNaming, options);
     expect(naming).toEqual({
-      names: {
-        functionName: 'example-function',
-        functionRoleName: 'example-role',
-      },
+      functionName: 'example-function',
+      functionRoleName: 'example-role',
     });
   });
 });
