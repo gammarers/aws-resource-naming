@@ -27,5 +27,9 @@ const project = new cdk.JsiiProject({
     distName: 'gammarers.aws-resource-naming',
     module: 'gammarers.aws_resource_naming',
   },
+  publishToNuget: {
+    dotNetNamespace: 'Gammarers.Utils.AWS',
+    packageId: 'Gammarers.Utils.AWS.ResourceNaming',
+  },
 });
 project.synth();
