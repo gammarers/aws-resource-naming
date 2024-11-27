@@ -64,7 +64,7 @@ export namespace ResourceNaming {
   //  function getValueByKey<K extends keyof MyObject>(obj: MyObject, key: K): MyObject[K] {
   //    return obj[key];
   //  }
-  type ResourceNamingOption = ResourceAutoNaming | ResourceDefaultNaming | {type: ResourceNamingType.CUSTOM; [key: string]: string};
+  export type ResourceNamingOption = ResourceAutoNaming | ResourceDefaultNaming | {type: ResourceNamingType.CUSTOM; [key: string]: string};
 
   //  export type NamingOptions = {
   //    naming: ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {type: ResourceNaming.NamingType.CUSTOM; names: {[key: string]: string}};
