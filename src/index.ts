@@ -14,11 +14,11 @@ export enum ResourceNamingType {
   CUSTOM = 'Custom',
 }
 
-export type ResourceAutoNaming = {
+export interface ResourceAutoNaming {
   readonly type: ResourceNamingType.AUTO;
 }
 
-export type ResourceDefaultNaming = {
+export interface ResourceDefaultNaming {
   readonly type: ResourceNamingType.DEFAULT;
 }
 
@@ -64,6 +64,7 @@ export namespace ResourceNaming {
   //  function getValueByKey<K extends keyof MyObject>(obj: MyObject, key: K): MyObject[K] {
   //    return obj[key];
   //  }
+  type ResourceNamingOption = ResourceAutoNaming | ResourceDefaultNaming | {type: ResourceNamingType.CUSTOM; [key: string]: string};
 
   //  export type NamingOptions = {
   //    naming: ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {type: ResourceNaming.NamingType.CUSTOM; names: {[key: string]: string}};
@@ -79,7 +80,7 @@ export namespace ResourceNaming {
     //    resourceNaming?: {
     //      naming: ResourceNaming.AutoNaming | ResourceNaming.DefaultNaming | {type: ResourceNaming.NamingType.CUSTOM; names: {[key: string]: string}};
     //    }) {
-    resourceNaming?: ResourceAutoNaming | ResourceDefaultNaming | {type: ResourceNamingType.CUSTOM; [key: string]: string}) {
+    resourceNaming?: ResourceNamingOption) {
     return Object.fromEntries(
       Object.entries(autoNaming).map(([name, value]) => {
         return [name, (() => {

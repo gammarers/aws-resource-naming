@@ -18,7 +18,7 @@ describe('ResouceNaming Testing', () => {
     functionRoleName: `${random}-func-exc-role`,
   };
 
-  type CustomNaming = {
+  interface CustomNaming {
     readonly type: ResourceNamingType.CUSTOM;
     readonly functionName: 'example-function';
     readonly functionRoleName: 'example-role';
@@ -52,7 +52,7 @@ describe('ResouceNaming Testing', () => {
   });
 
   it('Is Namings', () => {
-    const options: ResourceNamingOption = {
+    const options = {
       type: ResourceNamingType.CUSTOM,
       functionName: 'example-function',
       functionRoleName: 'example-role',
