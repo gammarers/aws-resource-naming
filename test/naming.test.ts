@@ -1,4 +1,4 @@
-import { ResourceNaming, ResourceNamingOptions, ResourceNamingType } from '../src';
+import { ResourceAutoNaming, ResourceDefaultNaming, ResourceNaming, ResourceNamingType } from '../src';
 
 //interface Names extends ResourceNaming.Naming {
 //  readonly functionName: string;
@@ -18,10 +18,15 @@ describe('ResouceNaming Testing', () => {
     functionRoleName: `${random}-func-exc-role`,
   };
 
-  // type Names = 'functionName' | 'roleName';
+  type CustomNaming = {
+    readonly type: ResourceNamingType.CUSTOM;
+    readonly functionName: 'example-function';
+    readonly functionRoleName: 'example-role';
+  }
+  type ResourceNamingOption = ResourceDefaultNaming | ResourceAutoNaming | CustomNaming;
 
   it('Is Naming Auto generate include Randmon String', () => {
-    const options: ResourceNamingOptions = {
+    const options: ResourceNamingOption = {
       type: ResourceNamingType.AUTO,
     };
     const naming = ResourceNaming.naming(autoNaming, options);
@@ -36,7 +41,7 @@ describe('ResouceNaming Testing', () => {
   });
 
   it('Is Naming Default(undefined)', () => {
-    const options: ResourceNamingOptions = {
+    const options: ResourceNamingOption = {
       type: ResourceNamingType.DEFAULT,
     };
     const naming = ResourceNaming.naming(autoNaming, options);
@@ -47,7 +52,7 @@ describe('ResouceNaming Testing', () => {
   });
 
   it('Is Namings', () => {
-    const options: ResourceNamingOptions = {
+    const options: ResourceNamingOption = {
       type: ResourceNamingType.CUSTOM,
       functionName: 'example-function',
       functionRoleName: 'example-role',
