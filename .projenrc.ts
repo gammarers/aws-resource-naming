@@ -4,15 +4,15 @@ const project = new cdk.JsiiProject({
   authorAddress: 'yicr@users.noreply.github.com',
   authorOrganization: true,
   defaultReleaseBranch: 'main',
-  typescriptVersion: '5.5.x',
-  jsiiVersion: '5.5.x',
+  typescriptVersion: '5.8.x',
+  jsiiVersion: '5.8.x',
   name: '@gammarers/aws-resource-naming',
   projenrcTs: true,
   repositoryUrl: 'https://github.com/gammarers/aws-resource-naming.git',
   releaseToNpm: true,
   npmAccess: javascript.NpmAccess.PUBLIC,
   minNodeVersion: '18.0.0',
-  workflowNodeVersion: '22.4.x',
+  workflowNodeVersion: '22.x',
   depsUpgradeOptions: {
     workflowOptions: {
       labels: ['auto-approve', 'auto-merge'],
